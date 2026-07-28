@@ -1,27 +1,20 @@
 import type { AccountDrawerProps } from './components/account-drawer';
 
+import { paths } from 'src/routes/paths';
+
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
 export const _account: AccountDrawerProps['data'] = [
-  { label: 'Home', href: '/', icon: <Iconify icon="solar:home-angle-bold-duotone" /> },
   {
-    label: 'Profile',
-    href: '#',
-    icon: <Iconify icon="custom:profile-duotone" />,
+    label: 'Dashboard',
+    href: paths.dashboard.root,
+    icon: <Iconify icon="solar:home-angle-bold-duotone" />,
   },
   {
-    label: 'Projects',
-    href: '#',
-    icon: <Iconify icon="solar:notes-bold-duotone" />,
-    info: '3',
+    label: 'API tokens',
+    href: paths.dashboard.apiTokens,
+    icon: <Iconify icon="solar:shield-keyhole-bold-duotone" />,
   },
-  {
-    label: 'Subscription',
-    href: '#',
-    icon: <Iconify icon="custom:invoice-duotone" />,
-  },
-  { label: 'Security', href: '#', icon: <Iconify icon="solar:shield-keyhole-bold-duotone" /> },
-  { label: 'Account settings', href: '#', icon: <Iconify icon="solar:settings-bold-duotone" /> },
 ];

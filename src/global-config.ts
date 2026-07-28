@@ -11,7 +11,7 @@ export type ConfigValue = {
   assetsDir: string;
   isStaticExport: boolean;
   auth: {
-    method: 'jwt' | 'amplify' | 'firebase' | 'supabase' | 'auth0';
+    method: 'sanctum';
     skip: boolean;
     redirectPath: string;
   };
@@ -32,17 +32,17 @@ export type ConfigValue = {
 // ----------------------------------------------------------------------
 
 export const CONFIG: ConfigValue = {
-  appName: 'Minimal UI',
+  appName: 'API Proxy Admin',
   appVersion: packageJson.version,
   serverUrl: process.env.NEXT_PUBLIC_SERVER_URL ?? '',
   assetsDir: process.env.NEXT_PUBLIC_ASSETS_DIR ?? '',
   isStaticExport: JSON.parse(process.env.BUILD_STATIC_EXPORT ?? 'false'),
   /**
    * Auth
-   * @method jwt | amplify | firebase | supabase | auth0
+   * First-party authentication uses Laravel Sanctum session cookies.
    */
   auth: {
-    method: 'jwt',
+    method: 'sanctum',
     skip: false,
     redirectPath: paths.dashboard.root,
   },

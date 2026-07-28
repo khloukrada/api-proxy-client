@@ -1,54 +1,37 @@
+# API Proxy Admin
+
+Next.js administration client for the Laravel API Proxy. Human administrators authenticate with Laravel Fortify and Sanctum session cookies. Machine bearer tokens are only displayed once and are never stored in browser storage.
+
 ## Prerequisites
 
-- Node.js >=22 (Recommended)
+- Node.js >=22.12
+- The Laravel backend running on `http://localhost:8000`
 
 ## Installation
 
-**Using Yarn (Recommended)**
-
 ```sh
-yarn install
-yarn dev
-```
-
-**Using Npm**
-
-```sh
-npm i
+npm ci
 npm run dev
 ```
 
-## Build
+The app runs on `http://localhost:8083`.
+
+Configure `.env`:
+
+```dotenv
+NEXT_PUBLIC_SERVER_URL=http://localhost:8000
+NEXT_PUBLIC_ASSETS_DIR=
+```
+
+## Verification
 
 ```sh
-yarn build
-# or
+npm run fm:check
+npm run lint
+npm run tsc:check
 npm run build
 ```
 
-## Mock server
+## Production
 
-By default we provide demo data from : `https://api-dev-minimal-[version].vercel.app`
-
-To set up your local server:
-
-- **Guide:** [https://docs.minimals.cc/mock-server](https://docs.minimals.cc/mock-server).
-
-- **Resource:** [Download](https://www.dropbox.com/scl/fo/bopqsyaatc8fbquswxwww/AKgu6V6ZGmxtu22MuzsL5L4?rlkey=8s55vnilwz2d8nsrcmdo2a6ci&dl=0).
-
-## Full version
-
-- Create React App ([migrate to CRA](https://docs.minimals.cc/migrate-to-cra/)).
-- Next.js
-- Vite.js
-
-## Starter version
-
-- To remove unnecessary components. This is a simplified version ([https://starter.minimals.cc/](https://starter.minimals.cc/))
-- Good to start a new project. You can copy components from the full version.
-- Make sure to install the dependencies exactly as compared to the full version.
-
----
-
-**NOTE:**
-_When copying folders remember to also copy hidden files like .env. This is important because .env files often contain environment variables that are crucial for the application to run correctly._
+Set `NEXT_PUBLIC_SERVER_URL` to the public Laravel URL at build time. Prefer serving the frontend and backend from the same origin; sibling subdomains are also supported when Laravel's Sanctum, CORS, and session-domain settings match the frontend hostname.

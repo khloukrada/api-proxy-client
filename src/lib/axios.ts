@@ -8,30 +8,23 @@ import { CONFIG } from 'src/global-config';
 
 const axiosInstance = axios.create({
   baseURL: CONFIG.serverUrl,
+  withCredentials: true,
+  withXSRFToken: true,
   headers: {
+    Accept: 'application/json',
     'Content-Type': 'application/json',
   },
 });
 
-/**
- * Optional: Add token (if using auth)
- *
- axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem('accessToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-*
-*/
-
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    const message = error?.response?.data?.message || error?.message || 'Something went wrong!';
-    console.error('Axios error:', message);
-    return Promise.reject(new Error(message));
+    if (!error?.response || error.response.status >= 500) {
+      const message = error?.response?.data?.message || error?.message || 'Something went wrong!';
+      console.error('Axios error:', message);
+    }
+
+    return Promise.reject(error);
   }
 );
 
@@ -61,9 +54,13 @@ export const endpoints = {
   kanban: '/api/kanban',
   calendar: '/api/calendar',
   auth: {
-    me: '/api/auth/me',
-    signIn: '/api/auth/sign-in',
-    signUp: '/api/auth/sign-up',
+    csrf: '/sanctum/csrf-cookie',
+    me: '/api/me',
+    signIn: '/login',
+    signOut: '/logout',
+  },
+  admin: {
+    tokens: '/api/admin/tokens',
   },
   mail: {
     list: '/api/mail/list',

@@ -11,7 +11,16 @@ type Props = {
 export default function Layout({ children }: Props) {
   return (
     <GuestGuard>
-      <AuthSplitLayout>{children}</AuthSplitLayout>
+      <AuthSplitLayout
+        slotProps={{
+          section: {
+            title: 'API Proxy Administration',
+            subtitle: 'Manage scoped API access securely.',
+          },
+        }}
+      >
+        {children}
+      </AuthSplitLayout>
     </GuestGuard>
   );
 }
