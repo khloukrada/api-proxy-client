@@ -6,6 +6,7 @@ import { useSetState } from 'minimal-shared/hooks';
 import { useMemo, useEffect, useCallback } from 'react';
 
 import axios, { endpoints } from 'src/lib/axios';
+import { dedupeRequest } from 'src/lib/dedupe-request';
 
 import { AuthContext } from '../auth-context';
 
@@ -20,7 +21,7 @@ export function AuthProvider({ children }: Props) {
 
   const checkUserSession = useCallback(async () => {
     try {
-      const res = await axios.get(endpoints.auth.me);
+      const res = await dedupeRequest(endpoints.auth.me, () => axios.get(endpoints.auth.me));
       setState({ user: res.data.user, loading: false });
     } catch {
       setState({ user: null, loading: false });

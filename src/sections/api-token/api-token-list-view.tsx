@@ -33,6 +33,7 @@ import DialogActions from '@mui/material/DialogActions';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 import axios, { endpoints } from 'src/lib/axios';
+import { dedupeRequest } from 'src/lib/dedupe-request';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Iconify } from 'src/components/iconify';
@@ -74,7 +75,9 @@ export function ApiTokenListView() {
     setErrorMessage(null);
 
     try {
-      const response = await axios.get<ApiTokenIndexResponse>(endpoints.admin.tokens);
+      const response = await dedupeRequest(endpoints.admin.tokens, () =>
+        axios.get<ApiTokenIndexResponse>(endpoints.admin.tokens)
+      );
       const payload = response.data;
 
       setTokens(payload.tokens);

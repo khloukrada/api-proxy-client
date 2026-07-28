@@ -28,6 +28,7 @@ import DialogActions from '@mui/material/DialogActions';
 import FormHelperText from '@mui/material/FormHelperText';
 
 import axios, { endpoints } from 'src/lib/axios';
+import { dedupeRequest } from 'src/lib/dedupe-request';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Iconify } from 'src/components/iconify';
@@ -56,8 +57,8 @@ export function ServiceAccountListView() {
     setErrorMessage(null);
 
     try {
-      const response = await axios.get<ServiceAccountIndexResponse>(
-        endpoints.admin.serviceAccounts
+      const response = await dedupeRequest(endpoints.admin.serviceAccounts, () =>
+        axios.get<ServiceAccountIndexResponse>(endpoints.admin.serviceAccounts)
       );
       setServiceAccounts(response.data.service_accounts);
     } catch (error) {
