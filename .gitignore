@@ -39,6 +39,7 @@ next-env.d.ts
 # editor & system files
 .DS_Store
 .vscode
+.idea
 
 # local configs & certificates
 *.pem
