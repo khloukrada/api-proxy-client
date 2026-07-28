@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <BlankView
       title="API Proxy Administration"
-      description="Manage service credentials from the API Tokens section."
+      description="Manage service accounts and their scoped API credentials."
     />
   );
 }

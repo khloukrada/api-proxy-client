@@ -61,6 +61,7 @@ export const endpoints = {
   },
   admin: {
     tokens: '/api/admin/tokens',
+    serviceAccounts: '/api/admin/service-accounts',
   },
   mail: {
     list: '/api/mail/list',

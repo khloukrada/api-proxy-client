@@ -189,6 +189,7 @@ export function ApiTokenListView() {
           <Typography variant="body2">{row.service_account?.name ?? 'Unknown'}</Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
             {row.service_account?.email}
+            {row.service_account?.is_active === false ? ' · Inactive' : ''}
           </Typography>
         </Stack>
       ),
@@ -245,7 +246,9 @@ export function ApiTokenListView() {
               <IconButton
                 size="small"
                 aria-label="Create replacement token"
-                disabled={submitting || row.status === 'expired'}
+                disabled={
+                  submitting || row.status === 'expired' || row.service_account?.is_active === false
+                }
                 onClick={() => handleRotate(row)}
               >
                 <Iconify icon="solar:restart-bold" />
@@ -309,7 +312,7 @@ export function ApiTokenListView() {
 
       {!loading && serviceAccounts.length === 0 && (
         <Alert severity="warning" sx={{ mb: 3 }}>
-          No service account is configured. Run the backend database seeder during deployment.
+          No active service account is configured. Create or activate one from Service accounts.
         </Alert>
       )}
 

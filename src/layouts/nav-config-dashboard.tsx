@@ -60,6 +60,11 @@ export const navData: NavSectionProps['data'] = [
         path: paths.dashboard.apiTokens,
         icon: ICONS.lock,
       },
+      {
+        title: 'Service accounts',
+        path: paths.dashboard.serviceAccounts,
+        icon: ICONS.user,
+      },
     ],
   },
 ];

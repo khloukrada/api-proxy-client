@@ -43,5 +43,6 @@ export const paths = {
   dashboard: {
     root: ROOTS.DASHBOARD,
     apiTokens: `${ROOTS.DASHBOARD}/api-tokens`,
+    serviceAccounts: `${ROOTS.DASHBOARD}/service-accounts`,
   },
 };

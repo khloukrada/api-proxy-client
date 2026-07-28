@@ -2,6 +2,11 @@
 
 Next.js administration client for the Laravel API Proxy. Human administrators authenticate with Laravel Fortify and Sanctum session cookies. Machine bearer tokens are only displayed once and are never stored in browser storage.
 
+The dashboard provides:
+
+- Service-account creation, editing, activation, and deactivation.
+- Scoped API-token creation, replacement, expiration visibility, and revocation.
+
 ## Prerequisites
 
 - Node.js >=22.12
