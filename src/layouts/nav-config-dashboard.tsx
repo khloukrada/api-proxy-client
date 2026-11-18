@@ -65,6 +65,11 @@ export const navData: NavSectionProps['data'] = [
         path: paths.dashboard.serviceAccounts,
         icon: ICONS.user,
       },
+      {
+        title: 'NBC Exchange Rates',
+        path: paths.dashboard.nbcExchangeRates,
+        icon: ICONS.banking,
+      },
     ],
   },
 ];

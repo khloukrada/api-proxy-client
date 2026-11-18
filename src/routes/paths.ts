@@ -44,5 +44,6 @@ export const paths = {
     root: ROOTS.DASHBOARD,
     apiTokens: `${ROOTS.DASHBOARD}/api-tokens`,
     serviceAccounts: `${ROOTS.DASHBOARD}/service-accounts`,
+    nbcExchangeRates: `${ROOTS.DASHBOARD}/nbc-exchange-rates`,
   },
 };

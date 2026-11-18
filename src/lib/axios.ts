@@ -19,7 +19,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (!error?.response || error.response.status >= 500) {
+    if (!axios.isCancel(error) && (!error?.response || error.response.status >= 500)) {
       const message = error?.response?.data?.message || error?.message || 'Something went wrong!';
       console.error('Axios error:', message);
     }
@@ -62,6 +62,7 @@ export const endpoints = {
   admin: {
     tokens: '/api/admin/tokens',
     serviceAccounts: '/api/admin/service-accounts',
+    nbcExchangeRates: '/api/admin/nbc/exchange-rates',
   },
   mail: {
     list: '/api/mail/list',
