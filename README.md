@@ -50,6 +50,35 @@ NEXT_PUBLIC_SERVER_URL=http://localhost:8000
 NEXT_PUBLIC_ASSETS_DIR=
 ```
 
+### Local frontend with the production API
+
+Sanctum's cookie authentication cannot work directly between `localhost` and
+`dp.bramoul.com`: Axios on localhost cannot read the remote `XSRF-TOKEN` cookie.
+Use the development proxy in `.env` (or `.env.local`, if you use overrides):
+
+```dotenv
+NEXT_PUBLIC_SERVER_URL=/api/backend
+DEV_API_PROXY_URL=https://dp.bramoul.com
+NEXT_PUBLIC_ASSETS_DIR=
+```
+
+Restart `npm run dev`, open `http://localhost:8083`, and sign in again. If stale
+cookies remain from a different local backend, clear cookies for localhost first.
+Use the same hostname throughout; `localhost` and `127.0.0.1` have separate cookies.
+
+The browser sends requests to `/api/backend/...` on localhost. Next.js forwards
+them to `DEV_API_PROXY_URL` and adapts the response cookies for localhost, retaining
+HttpOnly on the session cookie. Axios reads the local XSRF cookie and Laravel
+continues validating the `X-XSRF-TOKEN` header. All dashboard operations still use
+the configured remote backend and its data.
+
+The proxy is enabled only by `next dev` with `DEV_API_PROXY_URL` configured, accepts
+only loopback hosts, and rejects cross-origin browser requests. The backend must
+include `localhost:8083` in `SANCTUM_STATEFUL_DOMAINS` (append it to existing values).
+If you change that setting on the server, run `php artisan config:cache`. The proxy
+preserves the local frontend's Origin/Referer; browser CORS is no longer involved.
+Keep production cookie and CSRF settings enabled.
+
 ## Verification
 
 ```sh
@@ -57,8 +86,11 @@ npm run fm:check
 npm run lint
 npm run tsc:check
 npm run build
+node --experimental-strip-types --test tests/dev-api-proxy.test.mjs
 ```
 
 ## Production
 
 Set `NEXT_PUBLIC_SERVER_URL` to the public Laravel URL at build time. Prefer serving the frontend and backend from the same origin; sibling subdomains are also supported when Laravel's Sanctum, CORS, and session-domain settings match the frontend hostname.
+Do not use `/api/backend` as the production server URL: the development proxy
+returns 404 outside development. `DEV_API_PROXY_URL` is a server-only setting.
